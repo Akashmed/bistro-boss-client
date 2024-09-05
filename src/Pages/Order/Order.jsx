@@ -4,7 +4,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import UseMenu from "../../hooks/UseMenu";
+// import UseMenu from "../../hooks/UseMenu";
 import FoodTab from "../../components/FoodTab/FoodTab";
 import { useParams } from "react-router-dom";
 import { toWords } from 'number-to-words';
@@ -12,7 +12,7 @@ import { Helmet } from "react-helmet-async";
 
 
 const Order = () => {
-    const [menu] = UseMenu();
+    // const [menu] = UseMenu();
     const categories = ['salads', 'pizzas', 'soups', 'desserts']
     const { category } = useParams();
     const initialValue = categories.indexOf(category);
@@ -24,11 +24,11 @@ const Order = () => {
     
 
     const [value, setValue] = React.useState(word);
-    const desserts = menu.filter(item => item.category === 'dessert');
-    const pizzas = menu.filter(item => item.category === 'pizza');
-    const salads = menu.filter(item => item.category === 'salad');
-    const soups = menu.filter(item => item.category === 'soup');
-    const drinks = menu.filter(item => item.category === 'drinks');
+    // const desserts = menu.filter(item => item.category === 'dessert');
+    // const pizzas = menu.filter(item => item.category === 'pizza');
+    // const salads = menu.filter(item => item.category === 'salad');
+    // const soups = menu.filter(item => item.category === 'soup');
+    // const drinks = menu.filter(item => item.category === 'drinks');
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -69,11 +69,11 @@ const Order = () => {
                     </Tabs>
                 </Box>
             </div>
-            {value === "one" && <FoodTab items={salads}></FoodTab>}
-            {value === "two" && <FoodTab items={pizzas}></FoodTab>}
-            {value === "three" && <FoodTab items={soups}></FoodTab>}
-            {value === "four" && <FoodTab items={desserts}></FoodTab>}
-            {value === "five" && <FoodTab items={drinks}></FoodTab>}
+            {value === "one" && <FoodTab items="salad"></FoodTab>}
+            {value === "two" && <FoodTab items="pizza"></FoodTab>}
+            {value === "three" && <FoodTab items="soup"></FoodTab>}
+            {value === "four" && <FoodTab items="dessert"></FoodTab>}
+            {value === "five" && <FoodTab items="drinks"></FoodTab>}
         </div>
 
     );
