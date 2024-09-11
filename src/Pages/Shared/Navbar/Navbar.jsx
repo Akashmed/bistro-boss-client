@@ -1,12 +1,41 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../Providers/AuthProvider";
+import Swal from "sweetalert2";
+import { FaShoppingCart } from "react-icons/fa";
+import UseCart from "../../../hooks/UseCart";
 
 const NavBar = () => {
+    const { user, logOut } = useContext(AuthContext);
+    const [cart] = UseCart();
 
+    const handleLogOut = () => {
+        logOut()
+            .then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Logout successful",
+                    text: "Come back soon!",
+                });
+            })
+            .catch(err => console.log(err))
+    }
     const navOptions = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/menu'>Our menu</Link></li>
+        <li><Link to='/secret'>Secret</Link></li>
         <li><Link to='/order/salad'>Order Now</Link></li>
-        <li><Link to='/login'>Login</Link></li>
+        {
+            user ?
+                <>
+                    <li><button onClick={handleLogOut}>Logout</button></li>
+
+                </>
+                :
+                <>
+                    <li><Link to='/login'>Login</Link></li>
+                </>
+        }
     </>
 
     return (
@@ -29,7 +58,13 @@ const NavBar = () => {
                     </ul>
                 </div>
                 <div className="navbar-end">
-                    <a className="btn">Get started</a>
+                    {user ? user.displayName : ''}
+                    <Link to='dashboard/cart'>
+                        <button className="btn">
+                            <FaShoppingCart />
+                            <span className="badge text-orange-500 ">+{cart.length}</span>
+                        </button>
+                    </Link>
                 </div>
             </div>
         </>

@@ -1,13 +1,20 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { AuthContext } from '../../Providers/AuthProvider';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../../src/assets/others/authentication2.png'
 import { Helmet } from 'react-helmet-async';
+import Swal from 'sweetalert2';
+import SocialLogin from '../../components/SocialLogin/SocialLogin';
+
 const Login = () => {
     const captchaRef = useRef();
     const [disabled, setDisabled] = useState(true);
     const { signIn } = useContext(AuthContext);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    let from = location.state?.pathname || '/'
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -21,9 +28,14 @@ const Login = () => {
             return;
         }
 
-        signIn(email.password)
-            .then(res => {
-
+        signIn(email,password)
+            .then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "Login successful",
+                    text: "Welcome Back!",
+                });
+                navigate(from, {replace:true});
             })
             .catch(err => console.error(err));
     }
@@ -73,6 +85,7 @@ const Login = () => {
                         <div className="form-control mt-6">
                             <button disabled={disabled} className="btn btn-primary">Login</button>
                         </div>
+                        <SocialLogin from={from}></SocialLogin>
                     </form>
                 </div>
             </div>

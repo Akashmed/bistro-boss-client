@@ -12,7 +12,24 @@ import soupImg from '../../../src/assets/menu/soup-bg.jpg'
 
 
 const Menu = () => {
-    const [menu] = UseMenu()
+    const [menu, loading] = UseMenu();
+
+    if (loading) {
+        return (
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '100vh' // Takes up the full viewport height
+                }}
+            >
+                <progress className="progress w-56"></progress>
+            </div>
+        );
+    }
+
+
     const desserts = menu.filter(item => item.category === 'dessert');
     const pizzas = menu.filter(item => item.category === 'pizza');
     const salads = menu.filter(item => item.category === 'salad');
